@@ -4,6 +4,7 @@
 #include "stm32f4xx.h"
 #include "exit.h"  
 #include "delay.h"
+//å®šä¹‰ä¸‰ä¸ªå˜é‡
 volatile unsigned char Second;
 volatile unsigned char Minute;
 volatile unsigned char Hour;
@@ -16,7 +17,7 @@ NVIC_InitTypeDef NVIC_InitStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 	TIM_BaseInitStructure.TIM_Period=arr-1;
     TIM_BaseInitStructure.TIM_Prescaler=psc-1;
-	TIM_BaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;//ÏòÉÏ
+	TIM_BaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;//å‘ä¸Š
 	TIM_BaseInitStructure.TIM_ClockDivision=TIM_CKD_DIV1;
 	TIM_TimeBaseInit(TIM3,&TIM_BaseInitStructure);
 
@@ -26,9 +27,9 @@ NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x00;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00;
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
-	NVIC_Init(&NVIC_InitStructure);//NVICÊ¹ÄÜ
+	NVIC_Init(&NVIC_InitStructure);//NVICä½¿èƒ½
 	
-	TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);//ÖĞ¶ÏÊ¹ÄÜ
+	TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);//ä¸­æ–­ä½¿èƒ½
 	TIM_Cmd(TIM3,ENABLE);
 	
 	
@@ -43,7 +44,7 @@ NVIC_InitTypeDef NVIC_InitStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 	TIM_BaseInitStructure.TIM_Period=arr-1;
     TIM_BaseInitStructure.TIM_Prescaler=psc-1;
-	TIM_BaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;//ÏòÉÏ
+	TIM_BaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;//å‘ä¸Š
 	TIM_BaseInitStructure.TIM_ClockDivision=TIM_CKD_DIV1;
 	TIM_TimeBaseInit(TIM4,&TIM_BaseInitStructure);
 
@@ -53,48 +54,42 @@ NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x00;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00;
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
-	NVIC_Init(&NVIC_InitStructure);//NVICÊ¹ÄÜ
+	NVIC_Init(&NVIC_InitStructure);//NVICä½¿èƒ½
 	
-	TIM_ITConfig(TIM4,TIM_IT_Update,ENABLE);//ÖĞ¶ÏÊ¹ÄÜ
+	TIM_ITConfig(TIM4,TIM_IT_Update,ENABLE);//ä¸­æ–­ä½¿èƒ½
 	TIM_Cmd(TIM4,ENABLE);
 	
 	
 }
-//¶¨Ê±Æ÷3ÖĞ¶Ï·şÎñº¯Êı
-void TIM3_IRQHandler(void)
+//å®šæ—¶å™¨3ä¸­æ–­æœåŠ¡å‡½æ•°
+void TIM3_IRQHandler(void)//æœªä½¿ç”¨
 {
-	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //Òç³öÖĞ¶Ï
+	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //æº¢å‡ºä¸­æ–­
 	{
-	//GPIO_ToggleBits(GPIOB,GPIO_Pin_14);//·­×ªµçÆ½
+	//GPIO_ToggleBits(GPIOB,GPIO_Pin_14);//ç¿»è½¬ç”µå¹³
 	}
-	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //Çå³ıÖĞ¶Ï±êÖ¾Î»
+	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 }
 
 
 
-//¶¨Ê±Æ÷4ÖĞ¶Ï·şÎñº¯Êı
+//å®šæ—¶å™¨4ä¸­æ–­æœåŠ¡å‡½æ•°
 void TIM4_IRQHandler(void)
 {
-	if(TIM_GetITStatus(TIM4,TIM_IT_Update)==SET) //Òç³öÖĞ¶Ï
+	if(TIM_GetITStatus(TIM4,TIM_IT_Update)==SET) //æº¢å‡ºä¸­æ–­
 	{
-		Second++;
-		//TIM3_Init(8400,Pscnum[musicnum[flag++]]);//ÉèÖÃÔ¤·ÖÆµÏµÊıpsc
+		Second++;//ç”¨TIM4æ¥å®ç°æ¯ç§’åŠ ä¸€ï¼Œæ¯ä¸€ç§’è¿›å…¥ä¸€æ¬¡ä¸­æ–­
+		//TIM3_Init(8400,Pscnum[musicnum[flag++]]);//è®¾ç½®é¢„åˆ†é¢‘ç³»æ•°psc
 	}
-	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //Çå³ıÖĞ¶Ï±êÖ¾Î»
+	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 }
-void show_time(void)//ÏÔÊ¾Ê±ÖÓ
+void show_time(void)//æ˜¾ç¤ºæ—¶é’Ÿ
 {  
-		//float icm20602_temp;
-		
-		
-    OLED_ShowString(1,3,"time:");
-//	OLED_ShowSignedNum(3, 1, icm20602_gyro[0], 2);
-//    OLED_ShowSignedNum(3, 5, icm20602_gyro[1], 2);
-//	OLED_ShowSignedNum(3, 9, icm20602_gyro[2], 2);
-	OLED_ShowSignedNum(3, 1,Hour, 2);//Ê±
+        OLED_ShowString(1,3,"time:");
+	OLED_ShowSignedNum(3, 1,Hour, 2);//æ—¶
 	OLED_ShowChar(3,5,':');
-	OLED_ShowSignedNum(3, 6,Minute, 2);//·Ö
+	OLED_ShowSignedNum(3, 6,Minute, 2);//åˆ†
 	OLED_ShowChar(3,9,':');
-	OLED_ShowSignedNum(3, 10,Second, 2);//Ãë
+	OLED_ShowSignedNum(3, 10,Second, 2);//ç§’
 	
 }
