@@ -37,7 +37,8 @@ int main(void)
 	while(1)
 {
 	
-	show_time();
+	show_time();//OLED显示
+	//时钟时分秒变化
 	if(Second>=60){
 	    
 		Minute++;
